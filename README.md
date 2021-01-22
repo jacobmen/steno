@@ -17,6 +17,6 @@ For now, there are two primary commands (run `steno <command> -h` for specifics 
 [image](https://crates.io/crates/image): Image manipulation
 
 ## Installation
-1. Install [Rust](https://www.rust-lang.org/) with cargo
+1. Install [Rust](https://www.rust-lang.org/) and cargo
 2. Clone this repository
 3. Run `cargo install` from within the directory. This should install all the dependencies, build steno, and add it to your `$PATH`
