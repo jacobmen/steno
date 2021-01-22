@@ -3,6 +3,10 @@ use std::process;
 use clap::{App, Arg, crate_version};
 
 use steno::match_subcommand;
+use steno::CommandType;
+
+use steno::encode;
+use steno::decode;
 
 fn main() {
     let matches = App::new("Steno")
@@ -39,4 +43,12 @@ fn main() {
         eprintln!("Error: {}", err);
         process::exit(1);
     });
+
+    match sub_args.command {
+        CommandType::Encode => encode(&sub_args),
+        CommandType::Decode => decode(&sub_args),
+    }.unwrap_or_else(|err| {
+        eprintln!("Error: {}", err);
+        process::exit(1);
+    })
 }
