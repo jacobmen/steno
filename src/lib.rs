@@ -1,3 +1,5 @@
+mod st_error;
+
 use std::fs;
 use std::error::Error;
 
@@ -49,7 +51,10 @@ pub fn encode(args: &Args) -> Result<(), Box<dyn Error>> {
     let text = fs::read_to_string(args.text_path.unwrap())?.as_bytes().to_vec();
     let mut img = ImageReader::open(args.image_path)?.decode()?.to_rgba8();
 
-    // TODO: Check if text can fit in image
+    // Need 2 pixels for every ASCII character (4 channels/pixel)
+    if (2 * text.len()) > img.len() {
+        return Err(Box::new(st_error::ImageSizeError));
+    }
 
     let mut img_x = 0;
     let mut img_y = 0;
@@ -60,14 +65,15 @@ pub fn encode(args: &Args) -> Result<(), Box<dyn Error>> {
         let mut bit_ptr: u8 = 1 << 7;
 
         while bit_ptr != 0 {
-            // Move to start of next row when OOB
-            if img_x >= img.width() {
-                img_y += 1;
-                img_x = 0;
-            }
             // Reset pixel channel when OOB for RGBA
             if pxl_channel >= 4 {
                 pxl_channel = 0;
+                img_x += 1;
+            }
+            // Move to start of next row when OOB on image width
+            if img_x >= img.width() {
+                img_y += 1;
+                img_x = 0;
             }
 
             let pxl = img.get_pixel_mut(img_x, img_y);
@@ -78,7 +84,6 @@ pub fn encode(args: &Args) -> Result<(), Box<dyn Error>> {
             }
 
             bit_ptr >>= 1;
-            img_x += 1;
             pxl_channel += 1;
         }
     }
