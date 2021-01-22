@@ -7,7 +7,7 @@ The encoding algorithm minimizes noticeable change to the image by only modifyin
 of each pixel's channel values.
 
 ## Usage
-For now, there are two primary commands (run `steno \<command\> -h` for specifics for each command):
+For now, there are two primary commands (run `steno <command> -h` for specifics for each command):
 * `encode`: Encodes text into an image
 * `decode`: Decodes text from an image and outputs to `stdout`
 
