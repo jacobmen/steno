@@ -36,6 +36,12 @@ fn main() {
                         .index(1)
                         .required(true)
                 )
+                .arg(
+                    Arg::with_name("text_size")
+                        .help("Number of characters to extract")
+                        .index(2)
+                        .required(true)
+                )
         )
         .get_matches();
 
