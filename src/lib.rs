@@ -10,6 +10,7 @@ use image::io::Reader as ImageReader;
 
 use types::{ArgType, DecodeArgs, EncodeArgs};
 
+/// Matches program commands to specified subcommand
 pub fn match_subcommand<'a>(matches: &'a ArgMatches) -> Result<ArgType<'a>, &'static str> {
     let image;
 
@@ -41,6 +42,7 @@ pub fn match_subcommand<'a>(matches: &'a ArgMatches) -> Result<ArgType<'a>, &'st
     Err("No legal subcommand found")
 }
 
+/// Encodes image with specified args
 pub fn encode(args: &EncodeArgs) -> Result<(), Box<dyn Error>> {
     // TODO: Implement on UTF-8
     let text = fs::read_to_string(args.text_path)?.as_bytes().to_vec();
@@ -83,12 +85,12 @@ pub fn encode(args: &EncodeArgs) -> Result<(), Box<dyn Error>> {
         }
     }
 
-    // TODO: Replace output file with something else (user input or overwrite on orig image)
-    img.save("test/test_out.png")?;
+    img.save(args.out_img.unwrap_or(args.image_path))?;
 
     Ok(())
 }
 
+/// Decodes image from specified args
 pub fn decode(args: &DecodeArgs) -> Result<(), Box<dyn Error>> {
     let img = ImageReader::open(args.image_path)?.decode()?.to_rgba8();
 

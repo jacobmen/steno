@@ -1,16 +1,24 @@
+/// Enum representing the possible subcommands and their respective args
 pub enum ArgType<'a> {
     Encode(EncodeArgs<'a>),
     Decode(DecodeArgs<'a>),
 }
 
+/// Arguments for image encoding
 pub struct EncodeArgs<'a> {
+    /// Path of image file to encode text in
     pub image_path: &'a str,
+    /// Path of text file to encode
     pub text_path: &'a str,
+    /// Optional argument for new image file to create with encoding
     pub out_img: Option<&'a str>,
 }
 
+/// Arguments for text decoding from image
 pub struct DecodeArgs<'a> {
+    /// Path of image file to encode text in
     pub image_path: &'a str,
+    /// Number of characters to extract from image
     pub text_size: usize,
 }
 
