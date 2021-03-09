@@ -15,7 +15,11 @@ pub struct DecodeArgs<'a> {
 }
 
 impl<'a> EncodeArgs<'a> {
-    pub fn new(image_path: &'a str, text_path: &'a str, out_img: Option<&'a str>) -> EncodeArgs<'a> {
+    pub fn new(
+        image_path: &'a str,
+        text_path: &'a str,
+        out_img: Option<&'a str>,
+    ) -> EncodeArgs<'a> {
         EncodeArgs {
             image_path,
             text_path,

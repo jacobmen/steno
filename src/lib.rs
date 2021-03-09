@@ -1,55 +1,39 @@
-pub mod types;
 mod st_error;
+pub mod types;
 
-use std::fs;
 use std::error::Error;
+use std::fs;
 
 use clap::ArgMatches;
 
 use image::io::Reader as ImageReader;
 
-use types::{ArgType, EncodeArgs, DecodeArgs};
-
-// pub struct Args<'a> {
-//     pub image_path: &'a str,
-//     pub text_path: Option<&'a str>,
-//     pub text_size: Option<usize>,
-//     pub command: CommandType,
-// }
-
-// pub enum CommandType {
-//     Encode,
-//     Decode,
-// }
-
-// impl<'a> Args<'a> {
-//     fn new(image_path: &'a str, text_path: Option<&'a str>,
-//             text_size: Option<usize>, command: CommandType) -> Args<'a> {
-//         Args {
-//             image_path,
-//             text_path,
-//             text_size,
-//             command,
-//         }
-//     }
-// }
+use types::{ArgType, DecodeArgs, EncodeArgs};
 
 pub fn match_subcommand<'a>(matches: &'a ArgMatches) -> Result<ArgType<'a>, &'static str> {
     let image;
 
     if let Some(ref matches) = matches.subcommand_matches("encode") {
-        image = matches.value_of("image").expect("Couldn't get input image string");
-        let text = matches.value_of("text").expect("Couldn't get value of input text");
+        image = matches
+            .value_of("image")
+            .expect("Couldn't get input image string");
+        let text = matches
+            .value_of("text")
+            .expect("Couldn't get value of input text");
         let out_img = matches.value_of("out_img");
 
         // return Ok(Args::new(image, Some(text), None, CommandType::Encode));
         return Ok(ArgType::Encode(EncodeArgs::new(image, text, out_img)));
     } else if let Some(ref matches) = matches.subcommand_matches("decode") {
-        image = matches.value_of("image").expect("Couldn't get input image string");
+        image = matches
+            .value_of("image")
+            .expect("Couldn't get input image string");
         // TODO: Less verbose error ouput on unparseable text size
-        let text_size = matches.value_of("text_size")
-                                    .expect("Couldn't get text size value")
-                                    .parse().expect("Couldn't convert text size to number");
+        let text_size = matches
+            .value_of("text_size")
+            .expect("Couldn't get text size value")
+            .parse()
+            .expect("Couldn't convert text size to number");
 
         return Ok(ArgType::Decode(DecodeArgs::new(image, text_size)));
     }
