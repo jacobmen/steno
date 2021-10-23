@@ -1,7 +1,7 @@
 # steno
 
 ## About
-This is a basic stenography library I made to learn about Rust and its ecosystem.
+This is a basic steganography library I made to learn about Rust and its ecosystem.
 It primarily lets you encode text (ASCII only for now) into an image and later decode it.
 The encoding algorithm minimizes noticeable change to the image by only modifying the least significant bits
 of each pixel's channel values.
